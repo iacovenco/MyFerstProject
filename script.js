@@ -1,23 +1,14 @@
 "use strict";
 
 const title = prompt("Как называется ваш проект?");
-
 const screens = prompt("Какие типы экранов нужно разработать?");
-
 const screensPrice = +prompt("Сколько будет стоить данная работа?");
-
 let adaptive = prompt("Нужен ли адаптив на сайте?");
-
 const service1 = prompt("Какой дополнительный тип услуги нужен?");
-
 const servicePrice1 = +prompt("Сколько это будет стоить?");
-
 const service2 = prompt("Какой дополнительный тип услуги нужен?");
-
 const servicePrice2 = +prompt("Сколько это будет стоить?");
-
 const fullPrice = screensPrice + servicePrice1 + servicePrice2;
-
 const rebate = 5000;
 const servicePercentPrice = Math.ceil(fullPrice - rebate);
 

@@ -64,5 +64,3 @@ showTypeOf(adaptive);
 console.log(getRollbackMessage(fullPrice));
 console.log(screens);
 console.log(servicePercentPrice);
-
-alert("sadsa");

@@ -11,7 +11,11 @@ let service1;
 let service2;
 
 const isNumber = function (num) {
-  return !isNaN(parseFloat(num)) && isFinite(num);
+  if (num === null) {
+    return false;
+  }
+  num = num.trim();
+  return num !== "" && !isNaN(Number(num));
 };
 
 const asking = function () {
@@ -22,6 +26,7 @@ const asking = function () {
   do {
     screensPrice = prompt("Сколько будет стоить данная работа?");
   } while (!isNumber(screensPrice));
+  screensPrice = Number(screensPrice.trim());
 
   adaptive = confirm("Нужен ли адаптив на сайте?");
 };

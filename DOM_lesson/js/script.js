@@ -168,7 +168,8 @@ const appData = {
       appData.servicePricesNumber;
 
     appData.servicePercentPrice =
-      appData.fullPrice * (1 - appData.rollback / 100);
+      appData.fullPrice +
+      (appData.fullPrice - appData.fullPrice * (1 - appData.rollback / 100));
   },
 };
 

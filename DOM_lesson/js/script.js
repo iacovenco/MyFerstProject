@@ -42,7 +42,7 @@ const appData = {
 
   start: function () {
     appData.addScreens();
-    appData.reset();
+
     if (appData.screens.length != 0) {
       appData.addServices();
       appData.addRollback();
@@ -58,6 +58,7 @@ const appData = {
     this.addTitle();
 
     startBtn.addEventListener("click", this.start);
+    resetBtn.addEventListener("click", this.reset);
     buttonPlus.addEventListener("click", this.addScreenBlocks);
     inputRange.addEventListener("input", this.showRollback);
   },
@@ -81,7 +82,7 @@ const appData = {
 
   addScreenBlocks: function () {
     let screens = document.querySelectorAll(".screen");
-    const cloneScreen = screens[0].cloneNode(true);
+    let cloneScreen = screens[0].cloneNode(true);
 
     screens[screens.length - 1].after(cloneScreen);
   },
@@ -117,7 +118,17 @@ const appData = {
       if (screen.isError == true) {
         this.screens = [];
       }
-    }
+    } // Блокировка всех input[type=text] и select элементов
+    screens.forEach((screen) => {
+      const select = screen.querySelector("select");
+      const input = screen.querySelector("input");
+
+      select.disabled = true;
+      input.disabled = true;
+    });
+    // Скрытие кнопки "Рассчитать" и отображение кнопки "Сброс"
+    startBtn.style.display = "none";
+    resetBtn.style.display = "inline-block";
   },
 
   addServices: function () {
@@ -175,31 +186,39 @@ const appData = {
   },
 
   reset: function () {
-    startBtn.addEventListener("click", () => {
-      // Блокировка всех input[type=text] и select элементов
-      for (let i = 0; i < inputElements.length; i++) {
-        inputElements[i].disabled = true;
-      }
-      selectElement.disabled = true;
-
-      // Скрытие кнопки "Рассчитать" и отображение кнопки "Сброс"
-      startBtn.style.display = "none";
-      resetBtn.style.display = "inline-block";
+    let screens = document.querySelectorAll(".screen");
+    let checkbox = document.querySelectorAll('input[type="checkbox"]');
+    checkbox.forEach((check) => {
+      check.checked = false;
     });
 
-    resetBtn.addEventListener("click", function () {
-      // Сброс всех значений и активация input[type=text] и select элементов
-      for (let i = 0; i < inputElements.length; i++) {
-        inputElements[i].disabled = false;
-        inputElements[i].value = "";
-      }
-      selectElement.disabled = false;
-      selectElement.selectedIndex = 0;
+    screens.forEach((screen, key) => {
+      if (key == 0) {
+        const select = screen.querySelector("select");
+        const input = screen.querySelector("input");
 
-      // Скрытие кнопки "Сброс" и отображение кнопки "Рассчитать"
-      resetBtn.style.display = "none";
-      startBtn.style.display = "inline-block";
+        select.disabled = false;
+        select.value = "";
+        input.disabled = false;
+        input.value = "";
+        screen.disabled = false;
+        screen.value = "";
+      } else {
+        screen.remove();
+      }
     });
+
+    inputRange.value = 0;
+    spanRange.textContent = "0%";
+
+    for (let i = 0; i < inputElements.length; i++) {
+      inputElements[i].disabled = false;
+      inputElements[i].value = "";
+    }
+    selectElement.selectedIndex = 0;
+    // Скрытие кнопки "Сброс" и отображение кнопки "Рассчитать"
+    resetBtn.style.display = "none";
+    startBtn.style.display = "inline-block";
   },
 };
 
